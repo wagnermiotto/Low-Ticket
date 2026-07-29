@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Servida em /livro/[slug]: sem isto, css/, js/ e img/ resolveriam para /livro/... -->
+  <base href="/">
+  <title>Carregando… | Knowly Resumos</title>
+  <meta name="description" content="Resumo em PDF esquematizado com linha do tempo, principais feitos e frases marcantes.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <main class="container ficha" data-ficha>
+    <a href="/" class="voltar">← Voltar para o site</a>
+    <p class="ficha-carregando">Carregando…</p>
+  </main>
+
+  <script type="module">
+    import { buscarPorSlug, criarCapa } from './js/livros.js';
+
+    const alvo = document.querySelector('[data-ficha]');
+    const slug = new URLSearchParams(location.search).get('slug')
+      || location.pathname.replace(/\/+$/, '').split('/').pop();
+
+    const texto = (tag, classe, conteudo) => {
+      const el = document.createElement(tag);
+      if (classe) el.className = classe;
+      el.textContent = conteudo;
+      return el;
+    };
+
+    function renderizarAusente() {
+      document.title = 'PDF não encontrado | Knowly Resumos';
+      alvo.appendChild(texto('h1', null, 'Não encontramos esse PDF'));
+      alvo.appendChild(texto('p', null, 'O material que você procura pode ter saído do catálogo ou o endereço está incorreto.'));
+      const acao = document.createElement('a');
+      acao.className = 'btn btn-primario btn-lg';
+      acao.href = '/#planos';
+      acao.textContent = 'Ver todos os planos';
+      alvo.appendChild(acao);
+    }
+
+    function renderizar(livro) {
+      document.title = `${livro.titulo} — Resumo em PDF | Knowly Resumos`;
+      const meta = document.querySelector('meta[name="description"]');
+      if (meta && livro.descricao) meta.content = livro.descricao;
+
+      const grade = document.createElement('div');
+      grade.className = 'ficha-grade';
+
+      const capa = criarCapa(livro, { prioridade: true, clicavel: false });
+      capa.classList.add('ficha-capa');
+      grade.appendChild(capa);
+
+      const corpo = document.createElement('div');
+      corpo.className = 'ficha-corpo';
+      corpo.appendChild(texto('p', 'eyebrow', livro.categoria));
+      corpo.appendChild(texto('h1', null, livro.titulo));
+      if (livro.descricao) corpo.appendChild(texto('p', 'subheadline', livro.descricao));
+
+      const dados = document.createElement('ul');
+      dados.className = 'ficha-dados';
+      const itens = [
+        livro.paginas ? `${livro.paginas} páginas` : null,
+        'Linha do tempo e mapa mental',
+        'Questões, flashcards e simulado',
+        'Acesso imediato · Garantia de 7 dias'
+      ].filter(Boolean);
+      itens.forEach((item) => dados.appendChild(texto('li', null, item)));
+      corpo.appendChild(dados);
+
+      const acao = document.createElement('a');
+      acao.className = 'btn btn-primario btn-lg';
+      acao.href = '/#planos';
+      acao.textContent = 'Quero este PDF';
+      corpo.appendChild(acao);
+
+      grade.appendChild(corpo);
+      alvo.appendChild(grade);
+    }
+
+    buscarPorSlug(slug)
+      .then((livro) => {
+        alvo.querySelector('.ficha-carregando')?.remove();
+        livro ? renderizar(livro) : renderizarAusente();
+      })
+      .catch((erro) => {
+        console.error('[knowly] falha ao carregar o livro:', erro);
+        alvo.querySelector('.ficha-carregando')?.remove();
+        renderizarAusente();
+      });
+  </script>
+</body>
+</html>

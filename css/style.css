@@ -183,38 +183,101 @@ a.topbar { display: block; text-decoration: none; }
 
 .hero-nota { font-size: .82rem; color: var(--cinza); }
 
-/* pilha de capas */
+/* ═══ CAPA DE LIVRO (componente reutilizável) ═══ */
+/* Usada solta na pilha do hero e em linha no carrossel de amostras.
+   O fundo é o placeholder borrado; a imagem entra por cima ao carregar. */
+.capa-livro {
+  display: block;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: var(--tinta, #111827);
+  background-size: cover;
+  background-position: center;
+  aspect-ratio: 640 / 905;
+  box-shadow: 0 18px 40px rgba(17, 24, 39, .22);
+}
+
+.capa-livro img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity .45s ease;
+}
+
+.capa-livro.carregada img { opacity: 1; }
+
+/* ═══ PILHA DE CAPAS (hero) ═══ */
 .hero-visual { display: flex; justify-content: center; }
 
 .pilha-capas {
   position: relative;
-  width: 260px;
-  height: 400px;
+  width: min(58vw, 250px);
+  aspect-ratio: 640 / 905;
+  --afastamento: 42px;
+  --curva: cubic-bezier(.22, .61, .36, 1);
+  opacity: 0;
+  transition: opacity .5s ease;
 }
 
-.capa {
+.pilha-capas.pronta { opacity: 1; }
+
+/* Reserva o espaço lateral das capas de trás para nada ser cortado */
+.pilha-capas::after {
+  content: '';
   position: absolute;
-  width: 230px;
-  border-radius: 10px;
-  box-shadow: 0 18px 40px rgba(17, 24, 39, .22);
+  inset: 0 calc(var(--afastamento) * -1);
+  pointer-events: none;
 }
 
-.capa-frente { left: 15px; top: 22px; z-index: 3; }
-
-.capa-tras-esq {
-  left: -46px;
-  top: 0;
-  z-index: 1;
-  transform: rotate(-8deg) scale(.92);
-  opacity: .9;
+.pilha-capas .capa-livro {
+  position: absolute;
+  inset: 0;
+  transform-origin: center bottom;
+  transition:
+    transform .75s var(--curva),
+    opacity .75s var(--curva),
+    box-shadow .35s ease;
 }
 
-.capa-tras-dir {
-  left: 64px;
-  top: 6px;
+/* Frente: inteira e clicável */
+.pilha-capas .capa-livro[data-posicao="0"] {
+  z-index: 3;
+  opacity: 1;
+  transform: translate3d(0, 0, 0) rotate(0) scale(1);
+}
+
+/* Parcialmente atrás, à direita */
+.pilha-capas .capa-livro[data-posicao="1"] {
   z-index: 2;
-  transform: rotate(7deg) scale(.95);
   opacity: .95;
+  transform: translate3d(var(--afastamento), -10px, 0) rotate(7deg) scale(.94);
+}
+
+/* Parcialmente atrás, à esquerda */
+.pilha-capas .capa-livro[data-posicao="2"] {
+  z-index: 1;
+  opacity: .88;
+  transform: translate3d(calc(var(--afastamento) * -1), -16px, 0) rotate(-8deg) scale(.9);
+}
+
+/* Fila de espera do carrossel */
+.pilha-capas .capa-livro[data-posicao="oculta"] {
+  z-index: 0;
+  opacity: 0;
+  transform: translate3d(0, 12px, 0) scale(.84);
+  pointer-events: none;
+}
+
+/* Hover/foco da capa da frente: levanta, cresce e ganha sombra premium */
+.pilha-capas .capa-livro[data-posicao="0"]:hover,
+.pilha-capas .capa-livro[data-posicao="0"]:focus-visible {
+  transform: translate3d(0, -14px, 0) scale(1.045);
+  box-shadow:
+    0 34px 60px rgba(17, 24, 39, .34),
+    0 10px 20px rgba(17, 24, 39, .18);
 }
 
 /* nomes cobertos */
@@ -345,12 +408,23 @@ a.topbar { display: block; text-decoration: none; }
 
 .carrossel-trilho::-webkit-scrollbar { display: none; }
 
-.carrossel-trilho img {
+.carrossel-trilho img,
+.carrossel-trilho .capa-livro {
   width: min(60vw, 220px);
   flex-shrink: 0;
   scroll-snap-align: center;
   border-radius: 10px;
   box-shadow: 0 8px 24px rgba(17, 24, 39, .12);
+}
+
+.carrossel-trilho .capa-livro {
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.carrossel-trilho .capa-livro:hover,
+.carrossel-trilho .capa-livro:focus-visible {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 20px 38px rgba(17, 24, 39, .22);
 }
 
 .depoimentos .carrossel-trilho img {
@@ -800,6 +874,49 @@ a.topbar { display: block; text-decoration: none; }
 .legal ul { padding-left: 24px; }
 .legal a.voltar { display: inline-block; margin-bottom: 28px; color: var(--verde); font-weight: 600; text-decoration: none; font-size: .9rem; }
 
+/* ═══ FICHA DO LIVRO (/livro/[slug]) ═══ */
+.ficha { padding: 48px 24px 72px; }
+.ficha a.voltar { display: inline-block; margin-bottom: 28px; color: var(--verde); font-weight: 600; text-decoration: none; font-size: .9rem; }
+.ficha-carregando { color: var(--cinza, #6b7280); }
+
+.ficha-grade {
+  display: grid;
+  gap: 32px;
+  align-items: start;
+}
+
+.ficha-capa { width: min(70vw, 260px); margin: 0 auto; }
+
+.ficha-corpo h1 { font-size: 2rem; margin: 6px 0 14px; }
+.ficha-corpo .subheadline { margin-bottom: 20px; }
+
+.ficha-dados {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 28px;
+  display: grid;
+  gap: 10px;
+}
+
+.ficha-dados li {
+  position: relative;
+  padding-left: 26px;
+  font-size: .95rem;
+}
+
+.ficha-dados li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--verde);
+  font-weight: 700;
+}
+
+@media (min-width: 820px) {
+  .ficha-grade { grid-template-columns: 260px 1fr; gap: 48px; }
+  .ficha-capa { margin: 0; }
+}
+
 /* ═══════════ DESKTOP (≥820px) ═══════════ */
 @media (min-width: 820px) {
   .hero { padding: 88px 0 80px; }
@@ -825,4 +942,28 @@ a.topbar { display: block; text-decoration: none; }
   .passos { grid-template-columns: repeat(3, 1fr); }
 
   .cta-fixo { display: none; }
+
+  .pilha-capas { --afastamento: 52px; }
+}
+
+/* ═══════════ CELULAR ESTREITO (≤420px) ═══════════ */
+@media (max-width: 420px) {
+  .pilha-capas {
+    width: min(52vw, 190px);
+    --afastamento: 30px;
+  }
+}
+
+/* ═══════════ MENOS ANIMAÇÃO ═══════════ */
+@media (prefers-reduced-motion: reduce) {
+  .pilha-capas .capa-livro,
+  .carrossel-trilho .capa-livro,
+  .capa-livro img {
+    transition: none;
+  }
+
+  .pilha-capas .capa-livro[data-posicao="0"]:hover,
+  .pilha-capas .capa-livro[data-posicao="0"]:focus-visible {
+    transform: none;
+  }
 }

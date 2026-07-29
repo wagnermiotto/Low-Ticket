@@ -63,12 +63,9 @@
           <p class="hero-nota">Acesso imediato · Garantia de 7 dias</p>
         </div>
       </div>
-      <div class="hero-visual" aria-hidden="true">
-        <div class="pilha-capas">
-          <img src="img/capa-2.svg" alt="" class="capa capa-tras-esq">
-          <img src="img/capa-3.svg" alt="" class="capa capa-tras-dir">
-          <img src="img/capa-1.svg" alt="" class="capa capa-frente">
-        </div>
+      <div class="hero-visual">
+        <!-- As capas são carregadas do banco por js/livros.js -->
+        <div class="pilha-capas" data-pilha-capas></div>
       </div>
     </div>
     <div class="container">
@@ -120,15 +117,8 @@
         <div class="amostras-capas">
           <div class="carrossel" data-carrossel>
             <button class="carrossel-seta seta-prev" aria-label="Amostra anterior">‹</button>
-            <div class="carrossel-trilho">
-              <!-- TROCAR: quando tiver os PDFs prontos, você pode substituir estas capas ilustrativas pelas capas reais -->
-              <img src="img/capa-1.svg" alt="Capa do PDF de Albert Einstein" loading="lazy">
-              <img src="img/capa-2.svg" alt="Capa do PDF de Cleópatra" loading="lazy">
-              <img src="img/capa-3.svg" alt="Capa do PDF de Napoleão Bonaparte" loading="lazy">
-              <img src="img/capa-4.svg" alt="Capa do PDF de Leonardo da Vinci" loading="lazy">
-              <img src="img/capa-5.svg" alt="Capa do PDF de Mahatma Gandhi" loading="lazy">
-              <img src="img/capa-6.svg" alt="Capa do PDF de Júlio César" loading="lazy">
-            </div>
+            <!-- As capas são carregadas do banco por js/livros.js -->
+            <div class="carrossel-trilho" data-trilho-amostras></div>
             <button class="carrossel-seta seta-next" aria-label="Próxima amostra">›</button>
           </div>
           <p class="amostras-legenda">Linha do tempo · Principais feitos · Resumo em 1 página · Frases marcantes</p>
@@ -406,5 +396,6 @@
   </div>
 
   <script src="js/main.js"></script>
+<script type="module" src="js/livros.js"></script>
 </body>
 </html>

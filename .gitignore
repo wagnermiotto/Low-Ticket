@@ -1,2 +1,6 @@
 Thumbs.db
 .DS_Store
+
+# Intermediário dos scripts de catálogo (regerado por scripts/1-extrair-capas.py)
+scripts/.catalogo.json
+scripts/__pycache__/

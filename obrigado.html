@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compra confirmada! | Knowly Resumos</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <!-- ═══ PIXEL DA META (página de compra confirmada) ═══
+       TROCAR: cole o MESMO ID do Pixel usado no index.html entre as aspas abaixo.
+       Esta página dispara o evento "Purchase", que ensina a Meta a otimizar seus anúncios para COMPRAS. -->
+  <script>
+    var META_PIXEL_ID = "";
+    if (META_PIXEL_ID) {
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+      document,'script','https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', META_PIXEL_ID);
+      fbq('track', 'PageView');
+      fbq('track', 'Purchase', { currency: 'BRL', value: 24.90 }); // TROCAR (opcional): ajuste o valor médio das suas vendas
+    }
+  </script>
+  <style>
+    .confirmacao {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 24px;
+    }
+    .confirmacao-icone {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--verde-suave);
+      color: var(--verde);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    .confirmacao-icone svg { width: 34px; height: 34px; }
+    .confirmacao h1 {
+      font-size: clamp(1.9rem, 5vw, 2.6rem);
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .confirmacao h1 em { font-style: italic; color: var(--verde); }
+    .confirmacao p { max-width: 460px; margin: 0 auto 10px; }
+    .confirmacao .nota { font-size: .9rem; color: var(--cinza); margin-bottom: 28px; }
+  </style>
+</head>
+<body>
+  <main class="confirmacao">
+    <div>
+      <span class="confirmacao-icone">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      </span>
+      <h1>Compra confirmada.<br><em>Bons estudos!</em></h1>
+      <p>Enviamos o acesso aos seus PDFs para o seu e-mail. Verifique também a caixa de <strong>spam/lixo eletrônico</strong>.</p>
+      <p class="nota">Não recebeu em até 10 minutos? Fale com a gente:</p>
+      <a href="https://wa.me/5516997773830?text=Ol%C3%A1!%20Acabei%20de%20comprar%20e%20n%C3%A3o%20recebi%20o%20acesso." class="btn btn-whatsapp" target="_blank" rel="noopener">Chamar no WhatsApp</a>
+    </div>
+  </main>
+</body>
+</html>

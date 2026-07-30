@@ -9,7 +9,7 @@ create table if not exists public.livros (
   imagem_da_capa text        not null,           -- nome do arquivo no bucket "capas"
   slug           text        not null unique,
   descricao      text,
-  preco          numeric(10, 2) not null default 12.90,
+  preco          numeric(10, 2),                 -- reservado; hoje vende-se a coleção inteira, não o PDF avulso
   paginas        integer,
   destaque       boolean     not null default false,
   data_criacao   timestamptz not null default now(),

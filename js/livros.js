@@ -72,7 +72,8 @@ export async function buscarRecentes(limite = 20) {
 /** Um livro pelo slug, para a página de detalhe. */
 export async function buscarPorSlug(slug) {
   if (usandoSupabase()) {
-    const params = new URLSearchParams({ select: `${CAMPOS},autor,preco`, slug: `eq.${slug}`, limit: 1 });
+    // Sem `preco`: não se vende PDF avulso, o preço é o da coleção (js/config.js).
+    const params = new URLSearchParams({ select: `${CAMPOS},autor`, slug: `eq.${slug}`, limit: 1 });
     const resposta = await fetch(`${SUPABASE.url}/rest/v1/${SUPABASE.tabela}?${params}`, {
       headers: { apikey: SUPABASE.chave, Authorization: `Bearer ${SUPABASE.chave}` }
     });

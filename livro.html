@@ -10,8 +10,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=2">
+  <link rel="stylesheet" href="css/style.css?v=3">
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <!-- Checkout centralizado: para trocar o link de pagamento, edite js/config.js -->
+  <script src="js/config.js?v=3"></script>
 </head>
 <body>
   <main class="container ficha" data-ficha>
@@ -20,7 +22,7 @@
   </main>
 
   <script type="module">
-    import { buscarPorSlug, criarCapa } from './js/livros.js?v=2';
+    import { buscarPorSlug, criarCapa } from './js/livros.js?v=3';
 
     const alvo = document.querySelector('[data-ficha]');
     const slug = new URLSearchParams(location.search).get('slug')
@@ -39,8 +41,10 @@
       alvo.appendChild(texto('p', null, 'O material que você procura pode ter saído do catálogo ou o endereço está incorreto.'));
       const acao = document.createElement('a');
       acao.className = 'btn btn-primario btn-lg';
-      acao.href = '/#planos';
-      acao.textContent = 'Ver todos os planos';
+      acao.href = KNOWLY.checkoutUrl();
+      acao.target = '_self';
+      acao.dataset.checkout = '';
+      acao.textContent = `Ver a coleção completa por ${KNOWLY.PRECO}`;
       alvo.appendChild(acao);
     }
 
@@ -73,10 +77,16 @@
       itens.forEach((item) => dados.appendChild(texto('li', null, item)));
       corpo.appendChild(dados);
 
+      // Não se vende PDF avulso: este título faz parte da coleção completa,
+      // então o CTA leva ao mesmo checkout do resto do site.
+      corpo.appendChild(texto('p', 'ficha-nota', `Este PDF faz parte da coleção completa, com as 100 personalidades por ${KNOWLY.PRECO} em pagamento único.`));
+
       const acao = document.createElement('a');
       acao.className = 'btn btn-primario btn-lg';
-      acao.href = '/#planos';
-      acao.textContent = 'Quero este PDF';
+      acao.href = KNOWLY.checkoutUrl();
+      acao.target = '_self';
+      acao.dataset.checkout = '';
+      acao.textContent = `Quero a coleção completa por ${KNOWLY.PRECO}`;
       corpo.appendChild(acao);
 
       grade.appendChild(corpo);

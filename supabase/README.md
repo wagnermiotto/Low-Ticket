@@ -17,7 +17,7 @@ plano Pro.
 
 2. **Rodar os SQLs** no SQL Editor, nesta ordem:
    - `01-schema.sql` — tabela `livros`, índices, RLS e o bucket público `capas`
-   - `02-seed.sql` — os 97 livros do catálogo
+   - `02-seed.sql` — os 100 livros do catálogo
 
 3. **Subir as capas**: em Storage → bucket `capas`, enviar todos os arquivos de
    `img/capas/`. Os nomes precisam bater com a coluna `imagem_da_capa`

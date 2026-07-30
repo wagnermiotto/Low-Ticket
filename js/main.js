@@ -56,9 +56,11 @@ var ano = document.getElementById('ano');
 if (ano) ano.textContent = new Date().getFullYear();
 
 // ─── Pixel da Meta: evento InitiateCheckout ───
-// Dispara quando alguém clica no botão de um plano (só funciona se o Pixel
-// estiver configurado no index.html; caso contrário, não faz nada).
-document.querySelectorAll('.btn-plano').forEach(function (btn) {
+// Dispara quando alguém clica em qualquer botão que leve ao checkout. O
+// critério é o data-checkout (aplicado por js/config.js), não a classe de
+// estilo — assim tracking e visual não ficam acoplados. Só funciona se o
+// Pixel estiver configurado no index.html; caso contrário, não faz nada.
+document.querySelectorAll('[data-checkout]').forEach(function (btn) {
   btn.addEventListener('click', function () {
     if (typeof fbq === 'function') {
       fbq('track', 'InitiateCheckout');

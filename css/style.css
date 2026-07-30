@@ -636,29 +636,7 @@ a.topbar { display: block; text-decoration: none; }
   margin-bottom: 24px;
 }
 
-/* ancoragem de preço (plano Estudante) */
-.ancora { font-size: .8rem; color: var(--cinza); margin-bottom: 6px; }
-.ancora s { opacity: .85; }
-.plano-destaque .ancora { color: rgba(255, 255, 255, .55); }
-
-.selo-economia {
-  display: inline-block;
-  background: var(--verde-suave);
-  color: var(--verde);
-  font-family: var(--sans);
-  font-size: .68rem;
-  font-weight: 700;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  padding: 4px 10px;
-  border-radius: 999px;
-  vertical-align: middle;
-  margin-left: 6px;
-}
-
-.plano-destaque .selo-economia { background: rgba(5, 150, 105, .35); color: #6ee7b7; }
-
-/* microcopy sob os botões dos planos */
+/* microcopy sob o botão da oferta */
 .btn-nota { text-align: center; font-size: .74rem; color: var(--cinza); margin-top: 10px; }
 .plano-destaque .btn-nota { color: rgba(255, 255, 255, .6); }
 
@@ -912,6 +890,12 @@ a.topbar { display: block; text-decoration: none; }
   font-weight: 700;
 }
 
+.ficha-nota {
+  font-size: .9rem;
+  color: var(--cinza);
+  margin-bottom: 16px;
+}
+
 @media (min-width: 820px) {
   .ficha-grade { grid-template-columns: 260px 1fr; gap: 48px; }
   .ficha-capa { margin: 0; }
@@ -935,6 +919,14 @@ a.topbar { display: block; text-decoration: none; }
   }
 
   .plano-destaque { transform: scale(1.04); }
+
+  /* Oferta única: um card só, centralizado, sem esticar na largura toda */
+  .grade-oferta-unica {
+    grid-template-columns: minmax(0, 460px);
+    justify-content: center;
+  }
+
+  .grade-oferta-unica .plano-destaque { transform: none; }
 
   .garantia-flex { flex-direction: row; text-align: left; }
   .garantia h2 { text-align: left; }

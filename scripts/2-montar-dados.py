@@ -10,7 +10,9 @@ DIR_CAPAS = SITE / "img" / "capas"
 DIR_DADOS = SITE / "data"
 DIR_SUPABASE = SITE / "supabase"
 
-PRECO = 12.90
+# Não há preço por PDF: vende-se a coleção completa, e o valor mora numa
+# constante única em js/config.js. A coluna `preco` continua existindo no
+# schema do Supabase para uso futuro, mas o catálogo não a preenche.
 AUTOR = "Edições Premium"
 BASE = date(2026, 1, 1)
 
@@ -35,7 +37,6 @@ def main():
             "imagem_da_capa": f"img/capas/{reg['arquivo_capa']}",
             "slug": reg["slug"],
             "descricao": reg["descricao"],
-            "preco": PRECO,
             "paginas": reg["paginas"],
             "destaque": reg["numero"] in DESTAQUES,
             "data_criacao": (BASE + timedelta(days=reg["numero"])).isoformat(),
@@ -59,7 +60,7 @@ def main():
         return "'" + str(v).replace("'", "''") + "'"
 
     colunas = ["id", "titulo", "autor", "categoria", "imagem_da_capa", "slug",
-               "descricao", "preco", "paginas", "destaque", "data_criacao",
+               "descricao", "paginas", "destaque", "data_criacao",
                "largura", "altura", "blur"]
     linhas = []
     for L in livros:

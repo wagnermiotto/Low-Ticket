@@ -8,10 +8,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=3">
+  <link rel="stylesheet" href="css/style.css?v=4">
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
   <!-- Checkout centralizado: para trocar o link de pagamento, edite js/config.js -->
-  <script src="js/config.js?v=3"></script>
+  <script src="js/config.js?v=4"></script>
   <!-- ═══ PIXEL DA META ═══
        TROCAR: cole o ID do seu Pixel entre as aspas na linha abaixo (só números, ex.: "1234567890").
        Você encontra o ID em Gerenciador de Eventos > Fontes de dados, no Gerenciador de Anúncios.
@@ -102,17 +102,14 @@
 
       <div class="amostras-grid">
         <div class="telefone" aria-hidden="true">
+          <!-- A capa e os dados vêm do catálogo por js/livros.js -->
           <div class="telefone-tela">
-            <p class="mini-rotulo">KNOWLY RESUMOS</p>
-            <p class="mini-titulo">Albert Einstein</p>
-            <div class="mini-linha-tempo">
-              <div class="mini-evento"><span class="mini-ponto"></span><span class="mini-barra b1"></span></div>
-              <div class="mini-evento"><span class="mini-ponto"></span><span class="mini-barra b2"></span></div>
-              <div class="mini-evento"><span class="mini-ponto"></span><span class="mini-barra b3"></span></div>
-              <div class="mini-evento"><span class="mini-ponto"></span><span class="mini-barra b4"></span></div>
+            <div class="mini-capa" data-mockup-capa></div>
+            <div class="mini-info">
+              <p class="mini-rotulo" data-mockup-categoria></p>
+              <p class="mini-titulo" data-mockup-titulo></p>
+              <p class="mini-paginas" data-mockup-paginas></p>
             </div>
-            <div class="mini-bloco"></div>
-            <div class="mini-bloco curto"></div>
           </div>
         </div>
 
@@ -360,7 +357,7 @@
     <a href="https://pay.cakto.com.br/4sf4c9d_1010445" data-checkout target="_self" class="btn btn-primario">Garantir acesso por R$ 24,90</a>
   </div>
 
-  <script src="js/main.js?v=3"></script>
-<script type="module" src="js/livros.js?v=3"></script>
+  <script src="js/main.js?v=4"></script>
+<script type="module" src="js/livros.js?v=4"></script>
 </body>
 </html>

@@ -228,7 +228,31 @@ async function montarAmostras() {
   livros.forEach((livro) => trilho.appendChild(criarCapa(livro)));
 }
 
-Promise.allSettled([montarDestaques(), montarAmostras()]).then((resultados) => {
+/**
+ * Mockup de celular da seção de amostras. Mostra a capa real do primeiro
+ * livro em destaque — a mesma do topo da pilha do hero. A capa não é
+ * clicável porque o mockup inteiro é decorativo (aria-hidden).
+ */
+async function montarMockup() {
+  const alvo = document.querySelector('[data-mockup-capa]');
+  if (!alvo) return;
+
+  const [livro] = await buscarDestaques(1);
+  if (!livro) return;
+
+  alvo.innerHTML = '';
+  alvo.appendChild(criarCapa(livro, { clicavel: false }));
+
+  const escrever = (seletor, texto) => {
+    const el = document.querySelector(seletor);
+    if (el) el.textContent = texto;
+  };
+  escrever('[data-mockup-categoria]', livro.categoria || 'Knowly Resumos');
+  escrever('[data-mockup-titulo]', livro.titulo);
+  escrever('[data-mockup-paginas]', livro.paginas ? `${livro.paginas} páginas · PDF` : 'PDF');
+}
+
+Promise.allSettled([montarDestaques(), montarAmostras(), montarMockup()]).then((resultados) => {
   resultados
     .filter((r) => r.status === 'rejected')
     .forEach((r) => console.error('[knowly] falha ao carregar capas:', r.reason));
